@@ -291,3 +291,35 @@ we do the same test using PC4 and 5 and as you can notice it worked
 
 To refuse the sending of packets from the network 200.4.4.0 going to the network 200.4.3.0
 
+lets add the access-list![Capture d’écran 2023-03-14 093756](https://user-images.githubusercontent.com/121964432/224946728-7ea6252c-5248-43cb-b946-f4445c7b9c33.png)
+
+
+# third case test :
+
+we tried to ping a machine from the network 200.4.3.0 but we couldnt reach it
+
+![Capture d’écran 2023-03-14 093858](https://user-images.githubusercontent.com/121964432/224947176-562e2ac8-7e26-4fa0-bbb2-b70d317cbc3e.png)
+
+# Fourth case :
+
+refuse the sending of ICMP packets from the network 200.4.2.0 going towards the network 200.4.1.0 and to allow packets from the machine 200.4.2.3, you can use the following extended access control lists (ACL) in the configuration of the router R1, starting with the most specific rule and moving on to the general rule
+
+```cmd
+R1(config)#access-list 110 deny icmp 200.4.2.0 0.0.0.255 200.4.1.0 0.0.0.255
+R1(config)#no access-list 110
+R1(config)#access-list 110 permit icmp 200.4.2.3 0.0.0.0 200.4.1.0 0.0.0.255
+R1(config)#access-list 110 deny icmp 200.4.2.0 0.0.0.255 200.4.1.0 0.0.0.255
+R1(config)#inter Fa0/0
+R1(config-if)#ip access-group 110 out
+R1(config-if)#S
+```
+![Capture d’écran 2023-03-14 094937](https://user-images.githubusercontent.com/121964432/224946945-4ab0c939-535d-491a-b397-c4167da83aa5.png)
+
+# Fourth case test :
+
+as you can see we tried to ping the machine with ip add 200.4.1.2 from machines from the network 200.4.2.0 
+and we can notice that its not possible from the machine that we denied in our access-list
+
+![image](https://user-images.githubusercontent.com/121964432/224948922-ffb13312-e83c-4404-bb64-5db6682b764e.png)
+
+# End
