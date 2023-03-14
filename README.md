@@ -213,3 +213,81 @@ R3(config)#ip route 200.4.1.0 255.255.255.0 200.4.6.1
 
 ![image](https://user-images.githubusercontent.com/121964432/224861229-87f25007-47d8-450a-af1c-e08d8c7c0b08.png)
 
+# test :
+
+after creating the routes lets try to do the test that failed before , lets ping the pc with the ip add 200.4.3.2
+
+![Capture d’écran 2023-03-13 234604](https://user-images.githubusercontent.com/121964432/224863006-bd0af12a-b720-490a-9aa3-0c69787df7b8.png)
+
+its working 
+
+lets perform a simulation using packet tracer :
+
+![image](https://user-images.githubusercontent.com/121964432/224863138-fb34a4ee-2019-4e68-8ff3-fe4acddcde52.png)
+
+this icmp packet was sent from the pc 0 to pc 6 , here is the event list :
+
+![image](https://user-images.githubusercontent.com/121964432/224863370-0915c280-3e81-4218-96a6-de786830c9eb.png)
+
+# Access-Lists (ACL) :
+
+An access control list (ACL), also known as an access list, is a security feature used in networking to control the flow of traffic on a network. An ACL is a set of rules that define what type of network traffic is allowed or blocked from passing through a network device, such as a router or a firewall.
+
+Access control lists are used to filter traffic based on various criteria, such as source and destination IP addresses, protocols, port numbers, and other parameters. By applying an ACL to a network interface, an administrator can determine what type of traffic is allowed to enter or exit the network.
+
+ACLs can be used to protect network resources from unauthorized access, block malicious traffic, and prevent denial-of-service attacks. They are an essential component of network security and are commonly used in firewalls, routers, and other network devices to secure enterprise networks.
+
+# First case :
+
+To allow packets to be sent from the machine with IP address 200.4.1.2 and to deny packets from the machine with IP address 200.4.1.3 going to the network 200.4.3.0
+
+```cmd
+R2(config)#access-list 1 permit 200.4.1.2 0.0.0.0
+R2(config)#access-list 1 deny 200.4.1.3 0.0.0.0
+R2(config)#interface Fa0/0
+R2(config-if)#ip access-group 1 out
+```
+![image](https://user-images.githubusercontent.com/121964432/224868831-3019d331-ad5f-4372-a313-7437e123a87c.png)
+
+# Fisrt case test :
+
+as you can see we couldnt ping a device in the network 200.4.3.0 from PC1 because its address was denied .
+
+![image](https://user-images.githubusercontent.com/121964432/224868973-4bc36369-3997-4eae-bf3b-bf54b6515887.png)
+
+![image](https://user-images.githubusercontent.com/121964432/224869438-a6ef6b35-cb37-4756-b761-4f3d44933373.png)
+
+
+# second case :
+
+To refuse the sending of packets from the machine with the IP address 200.4.3.3 going to the network 200.4.2.0 and 200.4.1.0.
+
+```cmd
+R1(config)#access-list 2 deny 200.4.3.3 0.0.0.0
+R1(config)#access-list 2 permit any
+R1(config)#inter Se2/0
+R1(config-if)#ip access-group 2 in
+R1(config-if)#ex
+R1(config)#do show access-list
+Standard IP access list 2
+    10 deny host 200.4.3.3
+    20 permit any
+
+R1(config)#
+R1#
+```
+![image](https://user-images.githubusercontent.com/121964432/224870218-1365131d-083c-41cc-bbdd-6d56a6e5010c.png)
+
+# second case test :
+
+we do the same test using PC4 and 5 and as you can notice it worked
+
+![image](https://user-images.githubusercontent.com/121964432/224869942-2df61381-e552-4f12-9cbb-11876df6b55a.png)
+
+![image](https://user-images.githubusercontent.com/121964432/224870132-c484b1a4-387c-4b8d-92f4-8937a9ff52b5.png)
+
+
+# third case :
+
+To refuse the sending of packets from the network 200.4.4.0 going to the network 200.4.3.0
+
