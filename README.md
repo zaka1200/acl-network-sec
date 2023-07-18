@@ -1,23 +1,5 @@
 # acl-network-sec
-# Introduction
 
- in this practical work we are going to create a network where we will trz what we learnt about access list , our network is going to be composed of 3 routers 4 switchs and 8 Pcs , we are going to link and configure each one of them then we will create our access lists .
- 
- # network architecture 
-  
-  using Packet Tracer we created this network
-  
-  ![Capture d’écran 2023-03-13 221709](https://user-images.githubusercontent.com/121964432/224852564-56dcb079-0f5a-471d-9ac7-1ddaf5f9fb35.png)
-  
-  > Router : Router-PT
-  
-  
- > Switch : 2960
- 
-
- 
- as you can see the connection is not established , so we need to configure our devices 
- 
  # PCs configuration :
  we are going to start by giving each Pc an ip address and specifie the gateway address:
     
